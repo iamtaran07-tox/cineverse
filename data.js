@@ -1,5 +1,4 @@
 // ============ DEMO MOVIE DATABASE ============
-// Swap this data anytime with your own titles, or later with a live API.
 const MOVIES = [
   { id:1, title:"Neon Horizon", genre:"Sci-Fi", year:2024, rating:8.4, duration:"2h 12m",
     poster:"https://picsum.photos/seed/neonhorizon/400/600",
@@ -90,7 +89,12 @@ const MOVIES = [
     poster:"https://picsum.photos/seed/quietroom/400/600",
     backdrop:"https://picsum.photos/seed/quietroom-wide/1200/700",
     desc:"Something in the walls of apartment 4B only wakes up when the building goes silent.",
-    featured:false, trending:false }
+    featured:false, trending:false },
+  { id:19, title:"Ishqnama", genre:"Romance", year:2026, rating:8.0, duration:"2h 48m",
+    poster:"https://unhappy-tomato-io57hg2y.edgeone.dev/file.png",
+    backdrop:"https://unhappy-tomato-io57hg2y.edgeone.dev/file.png",
+    desc:"Set in the early 1980s along the India-Pakistan border in Punjab, a young Sikh poet falls in love with a Muslim girl from across the border.",
+    featured:false, trending:true, category:"Punjabi", trailerUrl:"" }
 ];
 
-const CATEGORIES = ["All","Action","Drama","Sci-Fi","Comedy","Horror","Animation","Thriller"];
+const CATEGORIES = ["All","Action","Drama","Sci-Fi","Comedy","Horror","Animation","Thriller","Romance"];
