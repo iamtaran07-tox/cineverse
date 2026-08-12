@@ -90,8 +90,8 @@ const MOVIES = [
     desc:"Something in the walls of apartment 4B only wakes up when the building goes silent.",
     featured:false, trending:false },
   { id:20, title:"Kabir Singh", genre:"Romance", year:2019, rating:7.0, duration:"2h 53m",
-    poster:"https://only-ivory-qfwhq9lp.edgeone.dev/file.png",
-    backdrop:"https://only-ivory-qfwhq9lp.edgeone.dev/file.png",
+    poster:"https://res.cloudinary.com/dtz0urit6/image/upload/q_auto:best,f_jpg/cloudinary-tools-uploads/we2civkhi0zkilxfyshm",
+    backdrop:"https://res.cloudinary.com/dtz0urit6/image/upload/q_auto:best,f_jpg/cloudinary-tools-uploads/we2civkhi0zkilxfyshm",
     desc:"A brilliant but self-destructive surgeon spirals into alcohol and rage after losing the love of his life, and must confront his own demons to find redemption.",
     featured:true, trending:true, category:"Bollywood", youtubeId:"RiANSSgCuJk" }
 ];
