@@ -7,7 +7,8 @@
 <meta name="description" content="CineVerse - discover trending movies, browse by genre, and build your watchlist.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,10 +16,11 @@
 <!-- ===== ENTRY POPUP ===== -->
 <div class="entry-overlay" id="entryOverlay">
   <div class="entry-bg"></div>
+  <div class="entry-glow"></div>
   <div class="entry-content">
     <h1 class="entry-logo">Cine<span>Verse</span></h1>
     <p class="entry-line">Unlimited movies, shows, and more.</p>
-    <button class="entry-btn" id="entryBtn" onclick="document.getElementById('entryOverlay').classList.add('hide')">Explore Cinema</button>
+    <button class="entry-btn ripple" id="entryBtn" onclick="document.getElementById('entryOverlay').classList.add('hide')">Explore Cinema</button>
   </div>
 </div>
 
@@ -38,8 +40,8 @@
     </nav>
 
     <div class="header-actions">
-      <button class="icon-btn" id="searchToggleBtn" aria-label="Search">🔍</button>
-      <button class="icon-btn watchlist-btn" id="watchlistBtn" aria-label="Watchlist">
+      <button class="icon-btn ripple" id="searchToggleBtn" aria-label="Search">🔍</button>
+      <button class="icon-btn ripple watchlist-btn" id="watchlistBtn" aria-label="Watchlist">
         ❤️<span class="badge" id="watchlistBadge">0</span>
       </button>
     </div>
@@ -78,22 +80,22 @@
       <p id="heroDesc" class="hero-desc"></p>
       <div class="hero-meta" id="heroMeta"></div>
       <div class="hero-actions">
-        <button class="btn btn-primary" id="heroDetailsBtn">▶ More Info</button>
-        <button class="btn btn-ghost" id="heroWatchlistBtn">+ Watchlist</button>
+        <button class="btn btn-primary ripple" id="heroDetailsBtn">▶ More Info</button>
+        <button class="btn btn-ghost ripple" id="heroWatchlistBtn">+ Watchlist</button>
       </div>
     </div>
     <div class="hero-dots" id="heroDots"></div>
   </section>
 
   <!-- ===== CATEGORIES ===== -->
-  <section class="categories" id="categories">
+  <section class="categories reveal" id="categories">
     <div class="section-inner">
       <div class="chip-row" id="chipRow"></div>
     </div>
   </section>
 
   <!-- ===== TRENDING (horizontal scroll) ===== -->
-  <section class="trending" id="trending">
+  <section class="trending reveal" id="trending">
     <div class="section-inner">
       <div class="section-heading">
         <h2>🔥 Trending Now</h2>
@@ -105,7 +107,7 @@
   </section>
 
   <!-- ===== BROWSE / SEARCH RESULTS ===== -->
-  <section class="browse" id="browse">
+  <section class="browse reveal" id="browse">
     <div class="section-inner">
       <div class="section-heading">
         <h2 id="browseHeading">Popular</h2>
@@ -118,13 +120,13 @@
         <div class="empty-icon">🎞️</div>
         <h3>No movies found</h3>
         <p>Try a different search term or category.</p>
-        <button class="btn btn-ghost" id="clearFiltersBtn">Clear filters</button>
+        <button class="btn btn-ghost ripple" id="clearFiltersBtn">Clear filters</button>
       </div>
     </div>
   </section>
 
   <!-- ===== WATCHLIST ===== -->
-  <section class="watchlist-section" id="watchlistSection">
+  <section class="watchlist-section reveal" id="watchlistSection">
     <div class="section-inner">
       <div class="section-heading">
         <h2>❤️ My Watchlist</h2>
@@ -157,7 +159,7 @@
 <!-- ===== MOVIE DETAILS MODAL ===== -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal" id="modal" role="dialog" aria-modal="true">
-    <button class="modal-close" id="modalCloseBtn" aria-label="Close">✕</button>
+    <button class="modal-close ripple" id="modalCloseBtn" aria-label="Close">✕</button>
 
     <div class="modal-poster" id="modalPoster"></div>
 
@@ -174,8 +176,8 @@
       <div class="modal-meta" id="modalMeta"></div>
       <p id="modalDesc"></p>
       <div class="modal-actions">
-        <button class="btn btn-primary" id="modalWatchBtn">▶ Watch Now</button>
-        <button class="btn btn-ghost" id="modalWatchlistBtn">+ Add to Watchlist</button>
+        <button class="btn btn-primary ripple" id="modalWatchBtn">▶ Watch Now</button>
+        <button class="btn btn-ghost ripple" id="modalWatchlistBtn">+ Add to Watchlist</button>
       </div>
     </div>
   </div>
@@ -184,4 +186,4 @@
 <script src="data.js"></script>
 <script src="script.js"></script>
 </body>
-</html>
+        </html>
