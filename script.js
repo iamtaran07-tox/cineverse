@@ -231,7 +231,21 @@ function openModal(id){
   const m = MOVIES.find(x => x.id === id);
   if (!m) return;
   currentModalMovieId = id;
-  modalPoster.style.backgroundImage = `url('${m.backdrop}')`;
+
+  const videoWrap = document.getElementById('modalVideoWrap');
+  const videoFrame = document.getElementById('modalVideoFrame');
+
+  if (m.youtubeId){
+    modalPoster.style.display = 'none';
+    videoWrap.style.display = 'block';
+    videoFrame.src = `https://www.youtube.com/embed/${m.youtubeId}?rel=0`;
+  } else {
+    modalPoster.style.display = 'block';
+    videoWrap.style.display = 'none';
+    videoFrame.src = '';
+    modalPoster.style.backgroundImage = `url('${m.backdrop}')`;
+  }
+
   modalTitle.textContent = m.title;
   modalMeta.innerHTML = `<span>⭐ ${m.rating}</span><span>${m.year}</span><span>${m.genre}</span><span>${m.duration}</span>`;
   modalDesc.textContent = m.desc;
