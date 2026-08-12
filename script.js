@@ -257,7 +257,11 @@ function closeModal(){
   modalOverlay.classList.remove("show");
   document.body.style.overflow = "";
 }
-modalCloseBtn.addEventListener("click", closeModal);
+function closeModal(){
+  modalOverlay.classList.remove("show");
+  document.body.style.overflow = "";
+  document.getElementById('modalVideoFrame').src = "";
+}
 modalOverlay.addEventListener("click", (e) => { if (e.target === modalOverlay) closeModal(); });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
 modalWatchlistBtn.addEventListener("click", () => {
