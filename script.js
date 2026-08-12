@@ -6,6 +6,13 @@ let heroMovies = MOVIES.filter(m => m.featured);
 let heroIndex = 0;
 let heroTimer = null;
 
+// ============ ENTRY POPUP ============
+const entryOverlay = document.getElementById("entryOverlay");
+const entryBtn = document.getElementById("entryBtn");
+if (entryBtn) {
+  entryBtn.addEventListener("click", () => entryOverlay.classList.add("hide"));
+}
+
 // ============ DOM REFS ============
 const hamburgerBtn = document.getElementById("hamburgerBtn");
 const mobileNav = document.getElementById("mobileNav");
@@ -52,6 +59,10 @@ const modalTitle = document.getElementById("modalTitle");
 const modalMeta = document.getElementById("modalMeta");
 const modalDesc = document.getElementById("modalDesc");
 const modalWatchlistBtn = document.getElementById("modalWatchlistBtn");
+const modalWatchBtn = document.getElementById("modalWatchBtn");
+const modalVideoWrap = document.getElementById("modalVideoWrap");
+const modalVideoPlayer = document.getElementById("modalVideoPlayer");
+const modalVideoFrame = document.getElementById("modalVideoFrame");
 
 let currentModalMovieId = null;
 
@@ -63,7 +74,6 @@ function init(){
   initHero();
   updateWatchlistBadge();
 
-  // simulate a brief loading state for a premium feel
   setTimeout(() => {
     trendingSkeleton.remove();
     browseSkeleton.remove();
@@ -108,7 +118,7 @@ function renderHero(){
 // ============ CATEGORY CHIPS ============
 function renderChips(){
   chipRow.innerHTML = CATEGORIES.map(cat =>
-    `<button class="chip ${cat===activeCategory?'active':''}" data-cat="${cat}">${cat}</button>`).join("");
+    `<button class="chip ${cat===activeCategory?'active':''}" data-cat="${cat}">${CATEGORY_ICONS[cat]||'●'} ${cat}</button>`).join("");
   chipRow.querySelectorAll(".chip").forEach(chip => {
     chip.addEventListener("click", () => {
       activeCategory = chip.dataset.cat;
@@ -232,36 +242,52 @@ function openModal(id){
   if (!m) return;
   currentModalMovieId = id;
 
-  const videoWrap = document.getElementById('modalVideoWrap');
-  const videoFrame = document.getElementById('modalVideoFrame');
-
-  if (m.youtubeId){
-    modalPoster.style.display = 'none';
-    videoWrap.style.display = 'block';
-    videoFrame.src = `https://www.youtube.com/embed/${m.youtubeId}?rel=0`;
-  } else {
-    modalPoster.style.display = 'block';
-    videoWrap.style.display = 'none';
-    videoFrame.src = '';
-    modalPoster.style.backgroundImage = `url('${m.backdrop}')`;
-  }
+  // Reset video state
+  modalVideoPlayer.pause();
+  modalVideoPlayer.src = "";
+  modalVideoPlayer.style.display = "none";
+  modalVideoFrame.src = "";
+  modalVideoFrame.style.display = "none";
+  modalVideoWrap.style.display = "none";
+  modalPoster.style.display = "block";
+  modalPoster.style.backgroundImage = `url('${m.backdrop}')`;
 
   modalTitle.textContent = m.title;
   modalMeta.innerHTML = `<span>⭐ ${m.rating}</span><span>${m.year}</span><span>${m.genre}</span><span>${m.duration}</span>`;
   modalDesc.textContent = m.desc;
   modalWatchlistBtn.textContent = isInWatchlist(id) ? "✓ In Watchlist" : "+ Add to Watchlist";
+
+  modalWatchBtn.onclick = () => playMovie(m);
+
   modalOverlay.classList.add("show");
   document.body.style.overflow = "hidden";
 }
+
+function playMovie(m){
+  modalPoster.style.display = "none";
+  modalVideoWrap.style.display = "block";
+
+  if (m.videoUrl){
+    modalVideoPlayer.style.display = "block";
+    modalVideoPlayer.src = m.videoUrl;
+    modalVideoPlayer.poster = m.backdrop;
+    modalVideoPlayer.play();
+  } else if (m.youtubeId){
+    modalVideoFrame.style.display = "block";
+    modalVideoFrame.src = `https://www.youtube.com/embed/${m.youtubeId}?rel=0&autoplay=1`;
+  }
+
+  modalVideoWrap.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
 function closeModal(){
   modalOverlay.classList.remove("show");
   document.body.style.overflow = "";
+  modalVideoPlayer.pause();
+  modalVideoPlayer.src = "";
+  modalVideoFrame.src = "";
 }
-function closeModal(){
-  modalOverlay.classList.remove("show");
-  document.body.style.overflow = "";
-  document.getElementById('modalVideoFrame').src = "";
-}
+modalCloseBtn.addEventListener("click", closeModal);
 modalOverlay.addEventListener("click", (e) => { if (e.target === modalOverlay) closeModal(); });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
 modalWatchlistBtn.addEventListener("click", () => {
