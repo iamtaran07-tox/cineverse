@@ -12,6 +12,16 @@
 </head>
 <body>
 
+<!-- ===== ENTRY POPUP ===== -->
+<div class="entry-overlay" id="entryOverlay">
+  <div class="entry-bg"></div>
+  <div class="entry-content">
+    <h1 class="entry-logo">Cine<span>Verse</span></h1>
+    <p class="entry-line">Unlimited movies, shows, and more.</p>
+    <button class="entry-btn" id="entryBtn">Explore Cinema</button>
+  </div>
+</div>
+
 <!-- ===== HEADER ===== -->
 <header class="site-header" id="siteHeader">
   <div class="header-inner">
@@ -148,18 +158,24 @@
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal" id="modal" role="dialog" aria-modal="true">
     <button class="modal-close" id="modalCloseBtn" aria-label="Close">✕</button>
+
     <div class="modal-poster" id="modalPoster"></div>
-<div id="modalVideoWrap" style="display:none; width:100%; aspect-ratio:16/9; background:#000;">
-  <iframe id="modalVideoFrame" width="100%" height="100%" src="" title="Trailer"
-    frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-    allowfullscreen></iframe>
-</div>
+
+    <div id="modalVideoWrap" style="display:none; width:100%; aspect-ratio:16/9; background:#000;">
+      <video id="modalVideoPlayer" controls playsinline style="width:100%; height:100%; display:none;"></video>
+      <iframe id="modalVideoFrame" width="100%" height="100%" src="" title="Trailer"
+        style="display:none; border:0;"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+        allowfullscreen></iframe>
+    </div>
+
     <div class="modal-body">
       <h2 id="modalTitle"></h2>
       <div class="modal-meta" id="modalMeta"></div>
       <p id="modalDesc"></p>
       <div class="modal-actions">
-        <button class="btn btn-primary" id="modalWatchlistBtn">+ Add to Watchlist</button>
+        <button class="btn btn-primary" id="modalWatchBtn">▶ Watch Now</button>
+        <button class="btn btn-ghost" id="modalWatchlistBtn">+ Add to Watchlist</button>
       </div>
     </div>
   </div>
@@ -168,4 +184,4 @@
 <script src="data.js"></script>
 <script src="script.js"></script>
 </body>
-          </html>
+</html>
