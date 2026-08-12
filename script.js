@@ -6,12 +6,31 @@ let heroMovies = MOVIES.filter(m => m.featured);
 let heroIndex = 0;
 let heroTimer = null;
 
-// ============ ENTRY POPUP ============
-const entryOverlay = document.getElementById("entryOverlay");
-const entryBtn = document.getElementById("entryBtn");
-if (entryBtn) {
-  entryBtn.addEventListener("click", () => entryOverlay.classList.add("hide"));
-}
+// ============ RIPPLE EFFECT (delegated) ============
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest(".ripple");
+  if (!btn) return;
+  const rect = btn.getBoundingClientRect();
+  const circle = document.createElement("span");
+  const size = Math.max(rect.width, rect.height);
+  circle.className = "ripple-circle";
+  circle.style.width = circle.style.height = size + "px";
+  circle.style.left = (e.clientX - rect.left - size / 2) + "px";
+  circle.style.top = (e.clientY - rect.top - size / 2) + "px";
+  btn.appendChild(circle);
+  setTimeout(() => circle.remove(), 600);
+});
+
+// ============ SCROLL REVEAL ============
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("in-view");
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll(".reveal").forEach(el => revealObserver.observe(el));
 
 // ============ DOM REFS ============
 const hamburgerBtn = document.getElementById("hamburgerBtn");
@@ -118,7 +137,7 @@ function renderHero(){
 // ============ CATEGORY CHIPS ============
 function renderChips(){
   chipRow.innerHTML = CATEGORIES.map(cat =>
-    `<button class="chip ${cat===activeCategory?'active':''}" data-cat="${cat}">${CATEGORY_ICONS[cat]||'●'} ${cat}</button>`).join("");
+    `<button class="chip ripple ${cat===activeCategory?'active':''}" data-cat="${cat}">${CATEGORY_ICONS[cat]||'●'} ${cat}</button>`).join("");
   chipRow.querySelectorAll(".chip").forEach(chip => {
     chip.addEventListener("click", () => {
       activeCategory = chip.dataset.cat;
@@ -129,9 +148,10 @@ function renderChips(){
 }
 
 // ============ CARD BUILDER ============
-function createCard(movie){
+function createCard(movie, delayIndex){
   const card = document.createElement("div");
   card.className = "card";
+  card.style.animationDelay = (delayIndex ? Math.min(delayIndex * 0.06, 0.6) : 0) + "s";
   card.innerHTML = `
     <div class="card-poster" style="background-image:url('${movie.poster}')">
       <span class="card-rating">⭐ ${movie.rating}</span>
@@ -160,7 +180,7 @@ function createCard(movie){
 function renderTrending(){
   const list = MOVIES.filter(m => m.trending);
   trendingRow.innerHTML = "";
-  list.forEach(m => trendingRow.appendChild(createCard(m)));
+  list.forEach((m,i) => trendingRow.appendChild(createCard(m,i)));
 }
 
 // ============ BROWSE (search + category) ============
@@ -181,7 +201,7 @@ function renderBrowse(){
     return;
   }
   emptyState.hidden = true;
-  list.forEach(m => browseGrid.appendChild(createCard(m)));
+  list.forEach((m,i) => browseGrid.appendChild(createCard(m,i)));
 }
 
 clearFiltersBtn.addEventListener("click", () => {
@@ -228,7 +248,7 @@ function renderWatchlist(){
     return;
   }
   watchlistEmpty.style.display = "none";
-  items.forEach(m => watchlistGrid.appendChild(createCard(m)));
+  items.forEach((m,i) => watchlistGrid.appendChild(createCard(m,i)));
 }
 
 watchlistBtn.addEventListener("click", () => {
@@ -242,7 +262,6 @@ function openModal(id){
   if (!m) return;
   currentModalMovieId = id;
 
-  // Reset video state
   modalVideoPlayer.pause();
   modalVideoPlayer.src = "";
   modalVideoPlayer.style.display = "none";
